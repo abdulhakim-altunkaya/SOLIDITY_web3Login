@@ -10,7 +10,7 @@
 <body onload="loadEvent()" class="flex-col w-screen h-screen justify-center items-center">
     <button 
         id="loginButton"
-        class="rounded-md bg-purple-500 p-2 text-white">Login with Metamask</button>
+        class="rounded-md bg-purple-500 p-2 text-white" onclick="login()">Login with Metamask</button>
     <button 
         id="logoutButton"
         class="rounded-md bg-purple-500 p-2 text-white" onclick="logout()">Logout from Metamask</button>
@@ -19,6 +19,10 @@
     <script>
         let account;
         const loadEvent = async () => { 
+            alert("page is ready");
+        }
+
+        const login  = async() => {
             if (typeof window.ethereum !== 'undefined') {
                 const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
                 account = accounts[0];
@@ -29,8 +33,9 @@
             }
         }
 
-        const logout = async () => {
-            window.account = null;
+        const logout = () => {
+            account = 0;
+            document.getElementById("showAccount").innerHTML = "wefwef";
         }
 
     </script>
