@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World Metamask App</title>
+    <link href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body onload="loadEvent()" class="flex-col w-screen h-screen justify-center items-center">
+    <button 
+        id="loginButton"
+        class="rounded-md bg-purple-500 p-2 text-white" onclick="login()">Login with Metamask</button>
+    <button 
+        id="logoutButton"
+        class="rounded-md bg-purple-500 p-2 text-white" onclick="logout()">Logout from Metamask</button>
+    <p id="showAccount"></p>
+
+    <script>
+        let account;
+        const loadEvent = async () => { 
+            alert("page is ready");
+        }
+
+        const login  = async() => {
+            if (typeof window.ethereum !== 'undefined') {
+                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                account = accounts[0];
+                document.getElementById("showAccount").innerHTML = account;
+            } else {
+                alert("metamask is not installed");
+                document.getElementById("loginButton").style.cursor = "not-allowed";
+            }
+        }
+
+        const logout = () => {
+            account = 0;
+            document.getElementById("showAccount").innerHTML = "wefwef";
+        }
+
+
+    </script>
+</body>
+</html>
