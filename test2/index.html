@@ -5,22 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        body {
-            background-color: palevioletred;
-            text-align: center;
-        } 
-
-        button {
-            background-color: aquamarine;
-            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-            font-size: 33px;
-        }
-    </style>
 </head>
 <body>
-    <button id="loginBtn" onclick="login()">CONNECT METAMASK</button>
-    <p id="addressArea">METAMASK DATA</p>
+    <main>test content</main> <br> <br>
+    <button id="loginBtn" onclick="login()">Connect to Metamask</button> <br><br>
+    <p id="addressArea"></p>
+
+
 
 
     <script>
@@ -32,10 +23,13 @@
                 account = accounts[0];
                 document.getElementById("addressArea").innerHTML = account;
             } else {
-                alert("Install Metamask");
+                alert("Download and Install Metamask");
                 document.getElementById("loginBtn").style.cursor = "not-allowed";
             }
         }
+
+
     </script>
 </body>
 </html>
+

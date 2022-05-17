@@ -4,13 +4,12 @@ const path = require("path");
 const app = express();
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname + "/index.html"));
-});
+    res.sendFile(path.join(__dirname, "/index.html"));
+})
 
 const server = app.listen(5000 || process.env.PORT);
 const portNumber = server.address().port;
-console.log(`потом я пошел домой ${portNumber}`)
-
+console.log(`ПОРТ СЕИЧАС ОТКРЫТ ГОСПОДИН ${portNumber}`);
 
 
 
