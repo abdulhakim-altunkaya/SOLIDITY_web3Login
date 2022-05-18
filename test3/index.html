@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+    <title>Document</title>
+    <style>
+        body {
+            background-color: palevioletred;
+            text-align: center;
+        } 
+
+        button {
+            background-color: aquamarine;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            font-size: 33px;
+        }
+    </style>
+</head>
+<body>
+    <button id="loginBtn" onclick="login()">CONNECT METAMASK</button>
+    <button id="loginBtn2" onclick="getData()">READ CONTRACT</button>
+    <p id="addressArea">METAMASK DATA</p>
+
+    <p id="contractArea"></p>
+
+
+    <script>
+    let account;
+    //It is weird but when make below function a modern arrow function declaration it doesnt work.
+    async function loadweb3(){
+        if(window.ethereum){
+            window.web3=new Web3(window.ethereum);
+            //window.ethereum.enable(); old deprecated syntax. New one is below:
+            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            account = accounts[0];
+            document.getElementById("addressArea").innerHTML = account;
+        } 
+    }     
+    
+    const loadContract = async () => {
+        //ABI & address of owner who deployed it on metamask network in RemixIDE
+        const ABI = [
+            {
+                "inputs": [
+                    {
+                        "internalType": "string",
+                        "name": "_city",
+                        "type": "string"
+                    }
+                ],
+                "name": "create",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "allCities",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "id",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "city",
+                        "type": "string"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "myWord",
+                "outputs": [
+                    {
+                        "internalType": "string",
+                        "name": "",
+                        "type": "string"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "nextId",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "_id",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "read1",
+                "outputs": [
+                    {
+                        "components": [
+                            {
+                                "internalType": "uint256",
+                                "name": "id",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "string",
+                                "name": "city",
+                                "type": "string"
+                            }
+                        ],
+                        "internalType": "struct Crud.User",
+                        "name": "",
+                        "type": "tuple"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "_id",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "read2",
+                "outputs": [
+                    {
+                        "internalType": "string",
+                        "name": "",
+                        "type": "string"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ];
+        const Address = '0x0C57147597e0E396cDB1f275E14DCBB623d10712';
+        return await new window.web3.eth.Contract( ABI, Address); 
+    } 
+    
+        
+    const load = async () => {
+        await loadweb3();
+        window.contract = await loadContract();
+    }
+        
+    
+    load();
+
+    const getData = async () => {
+        //Here we call the smart contract method that we defined earlier methodTwo( )
+        const amtB = await window.contract.methods.myWord().call();  
+        await console.log(amtB);  
+        document.getElementById("contractArea").innerHTML = amtB;            
+    }
+    </script>
+</body>
+</html>
