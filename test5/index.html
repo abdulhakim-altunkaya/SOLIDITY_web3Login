@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RINKEBY TEST NETWORK</title>
+    <style>
+        body {
+            background-color: palevioletred;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            text-align: center;
+            font-size: 33px;
+        }
+        button {
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            background-color: aquamarine;
+            font-size: 33px;
+        }
+    </style>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+</head>
+<body>
+    <button onclick="getAddress()">GET ADDRESS</button>
+    <button onclick="readData()">READ FROM SMART CONTRACT</button>
+    <button onclick="writeData()">MODIFY SMART CONTRACT</button>
+    <p id="addressArea"></p>
+    <p id="dataArea"></p>
+
+    <script>
+        let account;
+        const getAddress = async () => {
+            if (window.ethereum !== "undefined") {
+                window.web3 = new Web3(window.ethereum);
+
+                const accounts = await ethereum.request({ method: "eth_requestAccounts"});
+                account = accounts[0];
+                document.getElementById("addressArea").innerHTML = account;
+            }
+        }
+
+
+        const loadContract = async () => {
+            //ABI & address of owner who deployed it on metamask network in RemixIDE
+            const ABI = [
+                {
+                    "inputs": [],
+                    "name": "changeCity",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "myCity",
+                    "outputs": [
+                        {
+                            "internalType": "string",
+                            "name": "",
+                            "type": "string"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                }
+            ];
+            const Address = '0x15daCE1527F19043F90789E3f02B77600cc4bb5B';
+            return await new window.web3.eth.Contract( ABI, Address); 
+        } 
+        
+            
+        const load = async () => {
+            await getAddress();
+            window.contract = await loadContract();
+        }
+            
+        
+        load();
+
+
+        const readData = async () => {
+            //Here we call the smart contract method that we defined earlier methodTwo( )
+            const data = await window.contract.methods.myCity().call();   
+            document.getElementById("dataArea").innerHTML = data;            
+        }
+
+        const writeData = async () => {
+            await window.contract.methods.changeCity().send({ from: account });
+        }
+    </script>
+</body>
+</html>
