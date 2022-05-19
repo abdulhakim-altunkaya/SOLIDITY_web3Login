@@ -21,7 +21,7 @@
     
     <button onclick="login()">GET ADDRESS</button>
     <button onclick="getData()">READ FROM CONTRACT</button>
-    <button>WRITE TO BLOCKCHAIN</button>
+    <button onclick="writeData()">WRITE TO BLOCKCHAIN</button>
     <p id="addressArea"></p>
     <p id="contractArea"></p>
 
@@ -97,7 +97,7 @@
                     "type": "function"
                 }
             ];
-            const Address = '0x1aFa2F1f5C8a063f69f72A3Cc26305e44F43E33f';
+            const Address = '0x964e16939c2Bd80AFD75184D3D7ec61b384f15B0';
             return await new window.web3.eth.Contract( ABI, Address); 
         } 
         
@@ -117,7 +117,22 @@
             document.getElementById("contractArea").innerHTML = amtB;            
         }
 
-
+        const writeData = async () => {
+            await window.contract.methods.addArray().send({ from: account });
+        }
+        /*
+        async function changeCoolNumber() {
+            const value = Math.floor(Math.random() * 100);
+            updateStatus(`Updating coolNumber with ${value}`);
+            const account = await getCurrentAccount();
+            const coolNumber = await window.contract.methods.setCoolNumber(value).send({ from: account });
+            updateStatus('Updated.');
+        }
+        async function getCurrentAccount() {
+            const accounts = await window.web3.eth.getAccounts();
+            return accounts[0];
+        }
+        */
     </script>
 </body>
 </html>

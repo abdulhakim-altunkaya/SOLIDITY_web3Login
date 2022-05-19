@@ -3,6 +3,7 @@
 pragma solidity >=0.8.7;
 
 contract ArrayInArray {
+    string public myName = "agito";
     string[][] public myArray;
     string[] internal child1 = ["chibatta", "lamb"];
     string[] internal child2 = ["tomatoes", "potatoes"];
