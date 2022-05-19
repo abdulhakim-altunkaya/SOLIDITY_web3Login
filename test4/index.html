@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>SOLIDITY WEB3 PROJECT 4</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+    <style>
+        body {
+            background-color: palegreen;
+            text-align: center;
+        }
+        button {
+            background-color: palevioletred;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            font-size: 33px;
+        }
+    </style>
+</head>
+<body>
+    
+    <button onclick="login()">GET ADDRESS</button>
+    <button onclick="getData()">READ FROM CONTRACT</button>
+    <button>WRITE TO BLOCKCHAIN</button>
+    <p id="addressArea"></p>
+    <p id="contractArea"></p>
+
+    <script>
+        let account;
+        const login = async () => {
+            if(typeof window.ethereum !== "undefined"){
+                window.web3 = new Web3(window.ethereum);
+                const accounts = await ethereum.request({method: "eth_requestAccounts"});
+                account = accounts[0];
+                document.getElementById("addressArea").innerHTML = account;
+            }
+        }
+        
+        const loadContract = async () => {
+            //ABI & address of owner who deployed it on metamask network in RemixIDE
+            const ABI = [
+                {
+                    "inputs": [],
+                    "name": "addArray",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "myArray",
+                    "outputs": [
+                        {
+                            "internalType": "string",
+                            "name": "",
+                            "type": "string"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "myName",
+                    "outputs": [
+                        {
+                            "internalType": "string",
+                            "name": "",
+                            "type": "string"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "returnArray",
+                    "outputs": [
+                        {
+                            "internalType": "string[][]",
+                            "name": "",
+                            "type": "string[][]"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                }
+            ];
+            const Address = '0x1aFa2F1f5C8a063f69f72A3Cc26305e44F43E33f';
+            return await new window.web3.eth.Contract( ABI, Address); 
+        } 
+        
+            
+        const load = async () => {
+            await login();
+            window.contract = await loadContract();
+        }
+            
+        
+        load();
+
+        const getData = async () => {
+            //Here we call the smart contract method that we defined earlier methodTwo( )
+            const amtB = await window.contract.methods.myName().call();  
+            await console.log(amtB);  
+            document.getElementById("contractArea").innerHTML = amtB;            
+        }
+
+
+    </script>
+</body>
+</html>
